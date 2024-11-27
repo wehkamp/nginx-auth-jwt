@@ -1,3 +1,4 @@
+⚠️ Beware: PUBLIC REPO! ⚠️
 nginx-auth-jwt
 ==============
 
