@@ -56,8 +56,6 @@ RUN apk --no-cache upgrade \
       -e 's@access_log .*;$@access_log /dev/stdout main;@' \
       -i /etc/nginx/nginx.conf
 
-RUN mkdir /var/lib/nginx/logs
-
 # Change nginx UID and GID to 1001
 RUN set -x \
  && deluser nginx \
