@@ -60,7 +60,7 @@ RUN apk --no-cache upgrade \
 RUN set -x \
  && deluser nginx \
  && adduser -u 1001 -D -H -s /sbin/nologin nginx \
- && chown -R nginx:nginx /var/cache/nginx /var/log/nginx /etc/nginx
+ && chown -R nginx:nginx /var/lib/nginx /etc/nginx /usr/lib/nginx
 
 COPY --from=builder /usr/lib/nginx/modules/ngx_http_auth_jwt_module.so /usr/lib/nginx/modules/ngx_http_auth_jwt_module.so
 COPY --from=builder /etc/nginx/modules/auth_jwt.conf /etc/nginx/modules/auth_jwt.conf
