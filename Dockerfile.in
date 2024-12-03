@@ -43,7 +43,6 @@ RUN nginx_opt=$(nginx -V 2>&1 | tail -1 | sed -e "s/configure arguments://" -e "
  && echo 'load_module "/usr/lib/nginx/modules/ngx_http_auth_jwt_module.so";' > /etc/nginx/modules/auth_jwt.conf \
  && nginx -t
 
-
 ### nginx ###
 FROM nginx
 
@@ -56,6 +55,12 @@ RUN apk --no-cache upgrade \
       -e 's@^error_log .*$@error_log /dev/stderr warn;@' \
       -e 's@access_log .*;$@access_log /dev/stdout main;@' \
       -i /etc/nginx/nginx.conf
+
+# Change nginx UID and GID to 1001
+RUN set -x \
+ && deluser nginx \
+ && adduser -u 1001 -D -H -s /sbin/nologin nginx \
+ && chown -R nginx:nginx /var/cache/nginx /var/log/nginx /etc/nginx
 
 COPY --from=builder /usr/lib/nginx/modules/ngx_http_auth_jwt_module.so /usr/lib/nginx/modules/ngx_http_auth_jwt_module.so
 COPY --from=builder /etc/nginx/modules/auth_jwt.conf /etc/nginx/modules/auth_jwt.conf
